@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.monolith;
+package com.kainos.andrewwa.atddhometrading;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

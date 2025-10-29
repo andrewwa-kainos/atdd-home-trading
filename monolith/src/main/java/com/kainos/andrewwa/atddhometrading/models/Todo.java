@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.monolith.models;
+package com.kainos.andrewwa.atddhometrading.models;
 
 public class Todo {
     private int userId;
