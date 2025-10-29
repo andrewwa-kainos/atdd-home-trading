@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.monolith.controllers.web;
+package com.kainos.andrewwa.atddhometrading.controllers.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

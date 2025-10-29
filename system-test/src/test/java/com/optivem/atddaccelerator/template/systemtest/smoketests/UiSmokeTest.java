@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.systemtest.smoketests;
+package com.kainos.andrewwa.atddhometrading.template.systemtest.smoketests;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;

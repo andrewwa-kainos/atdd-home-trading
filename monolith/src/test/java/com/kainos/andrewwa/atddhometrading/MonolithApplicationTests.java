@@ -1,4 +1,4 @@
-package com.optivem.atddaccelerator.template.monolith;
+package com.kainos.andrewwa.atddhometrading;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
