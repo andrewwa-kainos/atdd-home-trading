@@ -1,8 +1,8 @@
 name: acceptance-stage
 
 on:
-#  schedule:
-#    - cron: '*/30 * * * *'  # Run every 30 minutes
+  schedule:
+    - cron: '*/30 * * * *'  # Run every 30 minutes
   workflow_dispatch:
     inputs:
       force_run:
@@ -100,7 +100,7 @@ jobs:
       run: echo "Run External System Contract Tests"
 
     - name: Run E2E Tests
-      run: ./gradlew test --tests com.kainos.andrewwa.atddhometrading.template.systemtest.e2etests.*
+      run: ./gradlew test --tests com.kainos.andrewwa.atddhometrading.systemtest.e2etests.*
       working-directory: system-test
   
   prerelease:

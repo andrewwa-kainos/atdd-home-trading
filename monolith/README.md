@@ -28,7 +28,7 @@ Check that JAVA_HOME is set correctly & points to your JDK 25 installation
 echo $env:JAVA_HOME
 ```
 
-Ensure you have Gradle 9.1 installed
+Ensure you have Gradle 8.14 installed
 
 ```shell
 ./gradlew --version
@@ -54,3 +54,4 @@ Rebuild and restart the application
 
 App should now be running on:
 http://localhost:8080/
+

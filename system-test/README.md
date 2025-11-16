@@ -29,7 +29,7 @@ Run All Tests
 Run Smoke Tests Only
 
 ```shell
-./gradlew test --tests com.kainos.andrewwa.atddhometrading.template.systemtest.smoketests.*
+./gradlew test --tests com.kainos.andrewwa.atddhometrading.systemtest.smoketests.*
 ```
 
 Stop Docker Containers
