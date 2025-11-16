@@ -4,12 +4,12 @@ import com.kainos.andrewwa.atddhometrading.systemtest.core.drivers.api.ApiDriver
 import com.kainos.andrewwa.atddhometrading.systemtest.core.drivers.ui.UiDriver;
 import com.optivem.atdd.commons.channels.ChannelContext;
 
-import java.util.HashMap;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class SystemDriver implements Driver {
-    private final HashMap<String, Driver> drivers;
+    private final Map<String, Driver> drivers;
 
     private Driver cachedActiveDriver;
 
@@ -17,9 +17,12 @@ public class SystemDriver implements Driver {
         var uiDriver = new UiDriver(baseUrl);
         var apiDriver = new ApiDriver(baseUrl);
 
-        this.drivers = new HashMap<>();
-        this.drivers.put(ChannelType.UI, uiDriver);
-        this.drivers.put(ChannelType.API, apiDriver);
+        this.drivers = Map.of(ChannelType.UI, uiDriver, ChannelType.API, apiDriver);
+    }
+
+    @Override
+    public void goToShop() {
+        getActiveDriver().goToShop();
     }
 
     private Driver getActiveDriver() {
@@ -35,11 +38,6 @@ public class SystemDriver implements Driver {
 
         cachedActiveDriver = drivers.get(activeChannel);
         return cachedActiveDriver;
-    }
-
-    @Override
-    public void goToShop() {
-        getActiveDriver().goToShop();
     }
 
     @Override

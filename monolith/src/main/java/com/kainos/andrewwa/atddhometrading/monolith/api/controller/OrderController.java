@@ -22,7 +22,7 @@ public class OrderController {
     @PostMapping("/api/orders")
     public ResponseEntity<PlaceOrderResponse> placeOrder(@Valid @RequestBody PlaceOrderRequest request) {
         var response = orderService.placeOrder(request);
-        var location = URI.create("/api/orders/" + response.getOrderNumber());
+        var location = URI.create("/api/orders/" + response.orderNumber());
         return ResponseEntity.created(location).body(response);
     }
 

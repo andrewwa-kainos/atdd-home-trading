@@ -23,18 +23,17 @@ public class ErpGateway {
     public BigDecimal getUnitPrice(long productId) {
         try (var httpClient = HttpClient.newHttpClient()) {
             var url = erpUrl + "/products/" + productId;
-            var request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .build();
+            var request = HttpRequest.newBuilder().uri(URI.create(url)).build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() != 200) {
-                throw new RuntimeException("ERP API returned status " + response.statusCode() + " for product: " + productId);
+                throw new RuntimeException(
+                        "ERP API returned status " + response.statusCode() + " for product: " + productId);
             }
 
             var productPriceResponse = OBJECT_MAPPER.readValue(response.body(), ProductPriceResponse.class);
 
-            return productPriceResponse.getPrice();
+            return productPriceResponse.price();
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch price for product: " + productId, e);
         }

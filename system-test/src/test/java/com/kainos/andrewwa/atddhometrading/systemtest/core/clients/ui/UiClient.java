@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UiClient implements AutoCloseable {
 
-    private String baseUrl;
-    private Playwright playwright;
-    private Browser browser;
-    private Page page;
+    private final String baseUrl;
+    private final Playwright playwright;
+    private final Browser browser;
+    private final Page page;
 
-    private HomePage homePage;
+    private final HomePage homePage;
 
     public UiClient(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -32,8 +32,10 @@ public class UiClient implements AutoCloseable {
         assertEquals(200, response.status());
 
         var contentType = response.headers().get("content-type");
-        assertTrue(contentType != null && contentType.contains("text/html"),
-                "Content-Type should be text/html, but was: " + contentType);
+        assertTrue(
+                contentType != null && contentType.contains("text/html"),
+                "Content-Type should be text/html, but was: " + contentType
+        );
 
         // Check HTML structure using Playwright's content method
         var pageContent = page.content();

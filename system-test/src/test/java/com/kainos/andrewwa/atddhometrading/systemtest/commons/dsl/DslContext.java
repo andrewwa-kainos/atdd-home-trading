@@ -1,12 +1,11 @@
 package com.kainos.andrewwa.atddhometrading.systemtest.commons.dsl;
 
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
 public class DslContext {
-    private final HashMap<String, String> aliases;
-
     private static final AtomicLong COUNTER = new AtomicLong();
+    private final Map<String, String> aliases;
 
     public DslContext() {
         this.aliases = new HashMap<>();

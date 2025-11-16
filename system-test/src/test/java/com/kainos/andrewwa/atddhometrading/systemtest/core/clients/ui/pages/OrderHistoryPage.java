@@ -50,6 +50,12 @@ public class OrderHistoryPage extends BasePage {
         return getCurrencyValue(displayUnitPrice);
     }
 
+    private static BigDecimal getCurrencyValue(Locator locator) {
+        var value = locator.inputValue();
+        value = value.replace("$", "").trim();
+        return new BigDecimal(value);
+    }
+
     public BigDecimal getTotalPrice() {
         var displayTotalPrice = page.locator("[aria-label='Display Total Price']");
         return getCurrencyValue(displayTotalPrice);
@@ -71,11 +77,5 @@ public class OrderHistoryPage extends BasePage {
     public void confirmCancelButtonNotVisible() {
         var cancelButton = page.locator("[aria-label='Cancel Order']");
         assertTrue(cancelButton.isHidden(), "Cancel Order button should not be visible");
-    }
-
-    private static BigDecimal getCurrencyValue(Locator locator) {
-        var value = locator.inputValue();
-        value = value.replace("$", "").trim();
-        return new BigDecimal(value);
     }
 }

@@ -5,20 +5,19 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
 public abstract class BasePage {
+    private static final double DEFAULT_TIMEOUT_MILLISECONDS = TestConfiguration.getWaitSeconds() * 1000;
     protected final Page page;
     private final String baseUrl;
     private final double timeoutMilliseconds;
 
-    private static final double DEFAULT_TIMEOUT_MILLISECONDS = TestConfiguration.getWaitSeconds() * 1000;
+    public BasePage(Page page, String baseUrl) {
+        this(page, baseUrl, DEFAULT_TIMEOUT_MILLISECONDS);
+    }
 
     public BasePage(Page page, String baseUrl, double timeOutMilliseconds) {
         this.page = page;
         this.baseUrl = baseUrl;
         this.timeoutMilliseconds = timeOutMilliseconds;
-    }
-
-    public BasePage(Page page, String baseUrl) {
-        this(page, baseUrl, DEFAULT_TIMEOUT_MILLISECONDS);
     }
 
     protected String getBaseUrl() {
@@ -29,11 +28,11 @@ public abstract class BasePage {
         return baseUrl + path;
     }
 
-    private Locator.WaitForOptions getWaitForOptions() {
-        return new Locator.WaitForOptions().setTimeout(timeoutMilliseconds);
-    }
-
     protected void wait(Locator locator) {
         locator.waitFor(getWaitForOptions());
+    }
+
+    private Locator.WaitForOptions getWaitForOptions() {
+        return new Locator.WaitForOptions().setTimeout(timeoutMilliseconds);
     }
 }

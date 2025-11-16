@@ -32,14 +32,11 @@ public class OrderService {
     }
 
     public PlaceOrderResponse placeOrder(PlaceOrderRequest request) {
-        var productId = request.getProductId();
-        var quantity = request.getQuantity();
+        var productId = request.productId();
+        var quantity = request.quantity();
 
         if (productId <= 0) {
             throw new ValidationException("Product ID must be greater than 0, received: " + productId);
-        }
-        if (quantity <= 0) {
-            throw new ValidationException("Quantity must be greater than 0, received: " + quantity);
         }
 
         var orderNumber = orderRepository.nextOrderNumber();
@@ -49,10 +46,7 @@ public class OrderService {
 
         orderRepository.addOrder(order);
 
-        var response = new PlaceOrderResponse();
-        response.setOrderNumber(orderNumber);
-        response.setTotalPrice(totalPrice);
-        return response;
+        return new PlaceOrderResponse(orderNumber, totalPrice);
     }
 
     public GetOrderResponse getOrder(String orderNumber) {
@@ -64,13 +58,14 @@ public class OrderService {
 
         var order = optionalOrder.get();
 
-        var response = new GetOrderResponse();
-        response.setOrderNumber(orderNumber);
-        response.setProductId(order.getProductId());
-        response.setQuantity(order.getQuantity());
-        response.setUnitPrice(order.getUnitPrice());
-        response.setTotalPrice(order.getTotalPrice());
-        response.setStatus(order.getStatus());
+        var response = new GetOrderResponse(
+                orderNumber,
+                order.productId(),
+                order.quantity(),
+                order.unitPrice(),
+                order.totalPrice(),
+                order.status()
+        );
 
         return response;
     }
@@ -88,13 +83,11 @@ public class OrderService {
         var currentDate = MonthDay.from(now);
         var currentTime = now.toLocalTime();
 
-        if (currentDate.equals(DECEMBER_31) &&
-                currentTime.isAfter(CANCELLATION_BLOCK_START) &&
-                currentTime.isBefore(CANCELLATION_BLOCK_END)) {
+        if (currentDate.equals(DECEMBER_31) && currentTime.isAfter(CANCELLATION_BLOCK_START) && currentTime.isBefore(
+                CANCELLATION_BLOCK_END)) {
             throw new ValidationException("Order cancellation is not allowed on December 31st between 22:00 and 23:00");
         }
 
-        order.setStatus(OrderStatus.CANCELLED);
-        orderRepository.updateOrder(order);
+        orderRepository.updateOrder(order.withStatus(OrderStatus.CANCELLED));
     }
 }

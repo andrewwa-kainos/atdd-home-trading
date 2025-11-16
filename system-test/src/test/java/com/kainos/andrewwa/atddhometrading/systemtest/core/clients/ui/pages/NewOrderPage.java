@@ -3,9 +3,8 @@ package com.kainos.andrewwa.atddhometrading.systemtest.core.clients.ui.pages;
 import com.microsoft.playwright.Page;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,16 +28,25 @@ public class NewOrderPage extends BasePage {
         placeOrderButton.click();
     }
 
+    public void confirmConfirmationMessageShown() {
+        var confirmationMessageText = readConfirmationMessageText();
+        var matcher = getConfirmationMessageTextMatcher(confirmationMessageText);
+        assertTrue(
+                matcher.find(),
+                "Confirmation message should match expected pattern. Actual: " + confirmationMessageText
+        );
+    }
+
     public String readConfirmationMessageText() {
         var confirmationMessage = page.locator("[role='alert']");
         wait(confirmationMessage);
         return confirmationMessage.textContent();
     }
 
-    public void confirmConfirmationMessageShown() {
-        var confirmationMessageText = readConfirmationMessageText();
-        var matcher = getConfirmationMessageTextMatcher(confirmationMessageText);
-        assertTrue(matcher.find(), "Confirmation message should match expected pattern. Actual: " + confirmationMessageText);
+    private Matcher getConfirmationMessageTextMatcher(String confirmationMessageText) {
+        var pattern = Pattern.compile(
+                "Success! Order has been created with Order Number ([\\w-]+) and Total Price \\$(\\d+(?:\\.\\d{2})?)");
+        return pattern.matcher(confirmationMessageText);
     }
 
     public Optional<String> getOrderNumber() {
@@ -64,10 +72,5 @@ public class NewOrderPage extends BasePage {
         var totalPriceString = matcher.group(2);
         var totalPrice = new BigDecimal(totalPriceString);
         return Optional.of(totalPrice);
-    }
-
-    private Matcher getConfirmationMessageTextMatcher(String confirmationMessageText) {
-        var pattern = Pattern.compile("Success! Order has been created with Order Number ([\\w-]+) and Total Price \\$(\\d+(?:\\.\\d{2})?)");
-        return pattern.matcher(confirmationMessageText);
     }
 }

@@ -3,28 +3,26 @@ package com.kainos.andrewwa.atddhometrading.monolith.core.repositories;
 import com.kainos.andrewwa.atddhometrading.monolith.core.entities.Order;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class OrderRepository {
-    private static final HashMap<String, Order> orders = new HashMap<>();
+    private static final Map<String, Order> orders = new HashMap<>();
 
     public void addOrder(Order order) {
-        if (orders.containsKey(order.getOrderNumber())) {
-            throw new IllegalArgumentException("Order with order number " + order.getOrderNumber() + " already exists.");
+        if (orders.containsKey(order.orderNumber())) {
+            throw new IllegalArgumentException("Order with order number " + order.orderNumber() + " already exists.");
         }
 
-        orders.put(order.getOrderNumber(), order);
+        orders.put(order.orderNumber(), order);
     }
 
     public void updateOrder(Order order) {
-        if (!orders.containsKey(order.getOrderNumber())) {
-            throw new IllegalArgumentException("Order with order number " + order.getOrderNumber() + " does not exist.");
+        if (!orders.containsKey(order.orderNumber())) {
+            throw new IllegalArgumentException("Order with order number " + order.orderNumber() + " does not exist.");
         }
 
-        orders.put(order.getOrderNumber(), order);
+        orders.put(order.orderNumber(), order);
     }
 
     public Optional<Order> getOrder(String orderNumber) {

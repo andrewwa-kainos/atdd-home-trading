@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,19 +18,17 @@ public class OrderControllerClient extends BaseControllerClient {
     }
 
     public HttpResponse<String> placeOrder(String productId, String quantity) {
-        var request = new PlaceOrderRequest();
-        request.setProductId(productId);
-        request.setQuantity(quantity);
+        var request = new PlaceOrderRequest(productId, quantity);
 
         var requestBody = serializeRequest(request);
 
         var uri = getUri("api/orders");
 
         var httpRequest = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+                                     .uri(uri)
+                                     .header("Content-Type", "application/json")
+                                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                                     .build();
 
         return sendRequest(httpRequest);
     }
@@ -43,10 +41,7 @@ public class OrderControllerClient extends BaseControllerClient {
     public HttpResponse<String> viewOrder(String orderNumber) {
         var uri = getUri("api/orders/" + orderNumber);
 
-        var httpRequest = HttpRequest.newBuilder()
-                .uri(uri)
-                .GET()
-                .build();
+        var httpRequest = HttpRequest.newBuilder().uri(uri).GET().build();
 
         return sendRequest(httpRequest);
     }
@@ -59,10 +54,7 @@ public class OrderControllerClient extends BaseControllerClient {
     public HttpResponse<String> cancelOrder(String orderNumber) {
         var uri = getUri("api/orders/" + orderNumber + "/cancel");
 
-        var httpRequest = HttpRequest.newBuilder()
-                .uri(uri)
-                .POST(HttpRequest.BodyPublishers.noBody())
-                .build();
+        var httpRequest = HttpRequest.newBuilder().uri(uri).POST(HttpRequest.BodyPublishers.noBody()).build();
 
         return sendRequest(httpRequest);
     }
@@ -77,7 +69,7 @@ public class OrderControllerClient extends BaseControllerClient {
         }
 
         var response = readBody(httpResponse, PlaceOrderResponse.class);
-        var orderNumber = response.getOrderNumber();
+        var orderNumber = response.orderNumber();
         return Optional.of(orderNumber);
     }
 }

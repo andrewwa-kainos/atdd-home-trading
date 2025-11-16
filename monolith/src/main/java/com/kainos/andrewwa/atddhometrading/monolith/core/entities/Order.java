@@ -1,19 +1,17 @@
 package com.kainos.andrewwa.atddhometrading.monolith.core.entities;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
 
-@Data
-public class Order {
-    private String orderNumber;
-    private long productId;
-    private int quantity;
-    private BigDecimal unitPrice;
-    private BigDecimal totalPrice;
-    private OrderStatus status;
+public record Order(
+        String orderNumber,
+        long productId,
+        int quantity,
+        BigDecimal unitPrice,
+        BigDecimal totalPrice,
+        OrderStatus status
+) {
 
-    public Order(String orderNumber, long productId, int quantity, BigDecimal unitPrice, BigDecimal totalPrice, OrderStatus status) {
+    public Order {
         if (orderNumber == null) {
             throw new IllegalArgumentException("orderNumber cannot be null");
         }
@@ -26,12 +24,9 @@ public class Order {
         if (status == null) {
             throw new IllegalArgumentException("status cannot be null");
         }
+    }
 
-        this.orderNumber = orderNumber;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.totalPrice = totalPrice;
-        this.status = status;
+    public Order withStatus(OrderStatus newStatus) {
+        return new Order(orderNumber, productId, quantity, unitPrice, totalPrice, newStatus);
     }
 }

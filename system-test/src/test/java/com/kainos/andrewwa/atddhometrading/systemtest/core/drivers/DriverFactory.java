@@ -4,11 +4,11 @@ import com.kainos.andrewwa.atddhometrading.systemtest.core.drivers.api.ApiDriver
 import com.kainos.andrewwa.atddhometrading.systemtest.core.drivers.ui.UiDriver;
 import com.optivem.atdd.commons.channels.ChannelContext;
 
-import java.util.Objects;
+import java.util.*;
 
 public class DriverFactory {
 
-    private String baseUrl;
+    private final String baseUrl;
 
     public DriverFactory(String baseUrl) {
         this.baseUrl = baseUrl;

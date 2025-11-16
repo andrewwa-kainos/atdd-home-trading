@@ -2,7 +2,7 @@ package com.kainos.andrewwa.atddhometrading.systemtest;
 
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.Map;
+import java.util.*;
 
 public class TestConfiguration {
 
@@ -10,10 +10,12 @@ public class TestConfiguration {
 
     static {
         var yaml = new Yaml();
-        var inputStream = TestConfiguration.class
-                .getClassLoader()
-                .getResourceAsStream("application.yml");
+        var inputStream = TestConfiguration.class.getClassLoader().getResourceAsStream("application.yml");
         config = yaml.load(inputStream);
+    }
+
+    public static String getBaseUrl() {
+        return getNestedValue("test", "eshop", "baseUrl");
     }
 
     @SuppressWarnings("unchecked")
@@ -23,10 +25,6 @@ public class TestConfiguration {
             current = (Map<String, Object>) current.get(keys[i]);
         }
         return (T) current.get(keys[keys.length - 1]);
-    }
-
-    public static String getBaseUrl() {
-        return getNestedValue("test", "eshop", "baseUrl");
     }
 
     public static int getWaitSeconds() {

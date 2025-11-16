@@ -17,10 +17,7 @@ public class EchoControllerClient extends BaseControllerClient {
     public HttpResponse<String> echo() {
         var uri = getUri("api/echo");
 
-        var request = HttpRequest.newBuilder()
-                .uri(uri)
-                .GET()
-                .build();
+        var request = HttpRequest.newBuilder().uri(uri).GET().build();
 
         return sendRequest(request);
     }

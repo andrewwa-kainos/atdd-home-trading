@@ -27,7 +27,7 @@ public class SmokeTest {
         }
     }
 
-    @Channel({ChannelType.UI, ChannelType.API})
+    @Channel({ ChannelType.UI, ChannelType.API })
     @TestTemplate
     void shouldBeAbleToGoToShop() {
         shop.goToShop();
