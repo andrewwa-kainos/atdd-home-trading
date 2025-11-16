@@ -2,67 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Shop - ATDD Accelerator eShop</title>
 </head>
 <body>
-    <h1>Shop</h1>
-    <nav>
-        <a href="/">← Back to Home</a>
-    </nav>
-    
-    <form id="orderForm" method="post" action="/shop">
-        <div>
-            <label for="productId">Product ID:</label>
-            <input type="number" id="productId" name="productId" aria-label="Product ID" min="1" required />
-        </div>
-        <div>
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" aria-label="Quantity" required />
-        </div>
-        <button type="submit" aria-label="Place Order">Place Order</button>
-    </form>
-    
-    <div role="alert" id="orderResult"></div>
+<h1>Shop</h1>
+<nav>
+    <a href="/">← Back to Home</a>
+</nav>
 
-    <script>
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const productId = parseInt(document.getElementById('productId').value);
-            const quantity = parseInt(document.getElementById('quantity').value);
-            
-            try {
-                const response = await fetch('/api/orders', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        productId: productId,
-                        quantity: quantity
-                    })
-                });
-                
-                const resultDiv = document.getElementById('orderResult');
+<form action="/shop" id="orderForm" method="post">
+    <div>
+        <label for="productId">Product ID:</label>
+        <input aria-label="Product ID" id="productId" min="1" name="productId" required type="number"/>
+    </div>
+    <div>
+        <label for="quantity">Quantity:</label>
+        <input aria-label="Quantity" id="quantity" name="quantity" required type="number"/>
+    </div>
+    <button aria-label="Place Order" type="submit">Place Order</button>
+</form>
 
-                if (response.ok) {
-                    const order = await response.json();
-                    resultDiv.textContent = `Success! Order has been created with Order Number ${order.orderNumber} and Total Price $${order.totalPrice.toFixed(2)}`;
-                } else if (response.status === 422) {
-                    // Handle validation errors
-                    const errors = await response.json();
-                    const errorMessages = Object.values(errors).join(', ');
-                    resultDiv.textContent = errorMessages;
-                } else {
-                    resultDiv.textContent = 'Error placing order. Please try again.';
-                }
-            } catch (error) {
-                const resultDiv = document.getElementById('orderResult');
+<div id="orderResult" role="alert"></div>
+
+<script language="JavaScript">
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const productId = parseInt(document.getElementById('productId').value);
+        const quantity = parseInt(document.getElementById('quantity').value);
+
+        try {
+            const response = await fetch('/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: productId,
+                    quantity: quantity
+                })
+            });
+
+            const resultDiv = document.getElementById('orderResult');
+
+            if (response.ok) {
+                const order = await response.json();
+                resultDiv.textContent = `Success! Order has been created with Order Number ${order.orderNumber} and Total Price $${order.totalPrice.toFixed(2)}`;
+            } else if (response.status === 422) {
+                // Handle validation errors
+                const errors = await response.json();
+                const errorMessages = Object.values(errors).join(', ');
+                resultDiv.textContent = errorMessages;
+            } else {
                 resultDiv.textContent = 'Error placing order. Please try again.';
-                console.error('Error:', error);
             }
-        });
-    </script>
+        } catch (error) {
+            const resultDiv = document.getElementById('orderResult');
+            resultDiv.textContent = 'Error placing order. Please try again.';
+            console.error('Error:', error);
+        }
+    });
+</script>
 </body>
 </html>
