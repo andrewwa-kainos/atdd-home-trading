@@ -1,6 +1,7 @@
 package com.kainos.andrewwa.atddhometrading.systemtest.core.drivers.ui;
 
 import com.kainos.andrewwa.atddhometrading.systemtest.core.clients.ui.UiClient;
+import com.kainos.andrewwa.atddhometrading.systemtest.core.clients.ui.pages.DashboardPage;
 import com.kainos.andrewwa.atddhometrading.systemtest.core.clients.ui.pages.HomePage;
 import com.kainos.andrewwa.atddhometrading.systemtest.core.clients.ui.pages.NewOrderPage;
 import com.kainos.andrewwa.atddhometrading.systemtest.core.clients.ui.pages.OrderHistoryPage;
@@ -20,6 +21,7 @@ public class UiDriver implements Driver {
     private HomePage homePage;
     private NewOrderPage newOrderPage;
     private OrderHistoryPage orderHistoryPage;
+    private DashboardPage dashboardPage;
 
     private Pages currentPage;
 
@@ -169,11 +171,19 @@ public class UiDriver implements Driver {
     }
 
     @Override
+    public void goToTrading() {
+        homePage = client.openHomePage();
+        currentPage = Pages.HOME;
+
+        dashboardPage = homePage.clickDashboard();
+    }
+
+    @Override
     public void close() {
         client.close();
     }
 
     private enum Pages {
-        NONE, HOME, NEW_ORDER, ORDER_HISTORY
+        NONE, HOME, NEW_ORDER, ORDER_HISTORY, DASHBOARD
     }
 }

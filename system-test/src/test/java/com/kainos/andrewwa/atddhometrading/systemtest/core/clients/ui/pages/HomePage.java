@@ -16,4 +16,9 @@ public class HomePage extends BasePage {
         page.click("a[href='/order-history.html']");
         return new OrderHistoryPage(page, getBaseUrl());
     }
+
+    public DashboardPage clickDashboard() {
+        page.click("a[href='/dashboard.html']");
+        return new DashboardPage(page, getBaseUrl());
+    }
 }

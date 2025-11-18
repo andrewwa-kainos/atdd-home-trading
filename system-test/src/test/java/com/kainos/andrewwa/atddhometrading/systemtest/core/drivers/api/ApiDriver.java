@@ -156,6 +156,12 @@ public class ApiDriver implements Driver {
     }
 
     @Override
+    public void goToTrading() {
+        var httpResponse = apiClient.getEchoController().echo();
+        apiClient.getEchoController().confirmEchoSuccessful(httpResponse);
+    }
+
+    @Override
     public void close() {
         apiClient.close();
     }

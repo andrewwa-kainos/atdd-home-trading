@@ -81,6 +81,11 @@ public class SystemDriver implements Driver {
     }
 
     @Override
+    public void goToTrading() {
+        getActiveDriver().goToTrading();
+    }
+
+    @Override
     public void close() throws Exception {
         Exception firstEx = null;
 

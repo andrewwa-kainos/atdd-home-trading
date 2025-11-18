@@ -19,4 +19,6 @@ public interface Driver extends AutoCloseable {
 
 
     void confirmOrderPlacementFailed(String order, String errorMessage);
+
+    void goToTrading();
 }
